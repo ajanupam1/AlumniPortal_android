@@ -87,45 +87,59 @@ public class Profile_visit extends AppCompatActivity {
 
 
       //getting data of the user
-        databaseReference.orderByChild(Currentuser).addChildEventListener(new ChildEventListener() {
+        databaseReference.child(Currentuser).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull  DataSnapshot snapshot,  String previousChildName) {
-                profile_values = snapshot.getValue(Profile_values.class);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                profile_values = snapshot.getValue(Profile_values.class);
                 full_name = profile_values.getFull_name().toString();
                 url = profile_values.getProfile().toString();
-                Log.i("here" , full_name);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull  DataSnapshot snapshot,  String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved(@NonNull  DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+//        databaseReference.orderByChild(Currentuser).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull  DataSnapshot snapshot,  String previousChildName) {
+//                profile_values = snapshot.getValue(Profile_values.class);
+//                full_name = profile_values.getFull_name().toString();
+//                url = profile_values.getProfile().toString();
+//                Log.i("here" , full_name);
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull  DataSnapshot snapshot,  String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull  DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull  DatabaseError error) {
+//
+//            }
+//        });
 
-        databaseReference.orderByChild(data).addChildEventListener(new ChildEventListener() {
+        databaseReference.child(data).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-             post_values = snapshot.getValue(Profile_values.class);
-             name.setText(post_values.getFull_name());
-             user_name = post_values.getFull_name();
-             gy.setText(post_values.getGraduation_year());
-             cpos.setText(post_values.getCurrent_position());
-             ccom.setText(post_values.getCurrent_company());
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                post_values = snapshot.getValue(Profile_values.class);
+                name.setText(post_values.getFull_name());
+                user_name = post_values.getFull_name();
+                gy.setText(post_values.getGraduation_year());
+                cpos.setText(post_values.getCurrent_position());
+                ccom.setText(post_values.getCurrent_company());
                 l = post_values.getLeetcode();
                 ll = post_values.getLinkedin();
                 cc = post_values.getCodechef();
@@ -142,25 +156,54 @@ public class Profile_visit extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-
-            }
-
-            @Override
             public void onCancelled(@NonNull  DatabaseError error) {
 
             }
         });
+//        databaseReference.orderByChild(data).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//             post_values = snapshot.getValue(Profile_values.class);
+//             name.setText(post_values.getFull_name());
+//             user_name = post_values.getFull_name();
+//             gy.setText(post_values.getGraduation_year());
+//             cpos.setText(post_values.getCurrent_position());
+//             ccom.setText(post_values.getCurrent_company());
+//                l = post_values.getLeetcode();
+//                ll = post_values.getLinkedin();
+//                cc = post_values.getCodechef();
+//                cf = post_values.getCodeforces();
+//                profile_url = post_values.getProfile();
+//                //profilepic
+//                DownloadTask downloadTask = new DownloadTask();
+//                try{
+//                    profilepic = downloadTask.execute(post_values.getProfile()).get();
+//                    profile.setImageBitmap(profilepic);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull  DatabaseError error) {
+//
+//            }
+//        });
 
         //codechef
         codechef.setOnClickListener(new View.OnClickListener() {
@@ -217,10 +260,10 @@ public class Profile_visit extends AppCompatActivity {
         });
 
         // getting posts for user
-        databaseReference1.orderByChild(data).addChildEventListener(new ChildEventListener() {
+        databaseReference1.child(data).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-                for(DataSnapshot data1 :snapshot.getChildren()){
+            public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                                for(DataSnapshot data1 :snapshot.getChildren()){
                     Home_post_values post_values = new Home_post_values(data1.child("Profilepic").getValue().toString() , data1.child("Name").getValue().toString(),data1.child("Year").getValue().toString() ,
                             data1.child("Company").getValue().toString(),data1.child("Exp").getValue().toString(),data ,data1.getRef());
                    Log.i("posts", data1.child("Company").getValue().toString());
@@ -233,25 +276,45 @@ public class Profile_visit extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull  DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+//        databaseReference1.orderByChild(data).addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//                for(DataSnapshot data1 :snapshot.getChildren()){
+//                    Home_post_values post_values = new Home_post_values(data1.child("Profilepic").getValue().toString() , data1.child("Name").getValue().toString(),data1.child("Year").getValue().toString() ,
+//                            data1.child("Company").getValue().toString(),data1.child("Exp").getValue().toString(),data ,data1.getRef());
+//                   Log.i("posts", data1.child("Company").getValue().toString());
+//                    values.add(post_values);
+//                }
+//                home_adapter = new Profile_Adapter(values);
+//                recyclerView.setAdapter(home_adapter);
+//                home_adapter.notifyDataSetChanged ();
+//                recyclerView.setLayoutManager(new LinearLayoutManager(Profile_visit.this));
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull  DataSnapshot snapshot, @Nullable  String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull  DatabaseError error) {
+//
+//            }
+//        });
 
         //date and time dialogue
           dnt.setOnClickListener(new View.OnClickListener() {

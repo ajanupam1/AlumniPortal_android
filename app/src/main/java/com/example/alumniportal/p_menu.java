@@ -82,19 +82,19 @@ public class p_menu extends AppCompatActivity {
                     finish();
                     return true ;
                 }
-                if(item.getItemId() == R.id.appointment){
+                else if(item.getItemId() == R.id.appointment){
                     Intent i = new Intent(getApplicationContext() , Appointment.class);
                     startActivity(i);
                     finish();
                     return true ;
                 }
-                if(item.getItemId() == R.id.res){
+                else if(item.getItemId() == R.id.res){
                     Intent i = new Intent(getApplicationContext() , Resources.class);
                     startActivity(i);
                     finish();
                     return true ;
                 }
-                if(item.getItemId() == R.id.faq){
+                else if(item.getItemId() == R.id.faq){
                     Intent i = new Intent(getApplicationContext() , Home_Page.class);
                     startActivity(i);
                     finish();
@@ -104,6 +104,13 @@ public class p_menu extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext() , Home_Page.class);
                     startActivity(i);
                     finish();
+                    return true ;
+                }
+                else if(item.getItemId() == R.id.logout){
+                    Intent i = new Intent(getApplicationContext() , Login_page.class);
+                    startActivity(i);
+                    finish();
+                    firebaseAuth.signOut();
                     return true ;
                 }
 
