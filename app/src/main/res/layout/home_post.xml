@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/borders"
+    android:layout_marginBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivprofile_image"
+        android:layout_width="71dp"
+        android:layout_height="61dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profilepic"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:id="@+id/ivname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/ivprofile_image"
+        android:text="Anupam"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/ivprofile_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/ivgyear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/ivprofile_image"
+        android:text="2019"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/ivprofile_image"
+        app:layout_constraintTop_toBottomOf="@+id/ivname" />
+
+    <ImageView
+        android:id="@+id/border"
+        android:layout_width="380dp"
+        android:layout_height="2dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="-7dp"
+        android:src="@drawable/horizontal_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ivcompany_name"
+        android:layout_width="358dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/border"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/horizontal_line"
+        android:backgroundTint="@color/white"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:text="Amazon Interview Experience"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/border"
+        android:focusable="false"
+        android:enabled="false"
+        />
+
+    <EditText
+        android:id="@+id/ivexp"
+        android:layout_width="354dp"
+        android:layout_height="82dp"
+        android:layout_below="@+id/ivcompany_name"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/horizontal_line"
+        android:backgroundTint="@color/white"
+        android:gravity="top"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:text="Amazon Interview Experience was very sexy mtlb gand faddd"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivcompany_name"
+        android:textSize="16sp"
+        android:focusable="false"
+        android:enabled="false"
+        />
+
+    <ImageView
+        android:id="@+id/border1"
+        android:layout_width="380dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/horizontal_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivexp" />
+
+    <!--    </RelativeLayout>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

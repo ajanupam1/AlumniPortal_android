@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_bar"
+    app:startDestination="@id/res">
+
+    <activity
+        android:id="@+id/home_Page"
+        android:name="com.example.alumniportal.Home_Page"
+        android:label="activity_home_page"
+        tools:layout="@layout/activity_home_page" />
+    <activity
+        android:id="@+id/profile_Page"
+        android:name="com.example.alumniportal.Profile_Page"
+        android:label="activity_profile_page"
+        tools:layout="@layout/activity_profile_page" />
+    <activity
+        android:id="@+id/res"
+        android:name="com.example.alumniportal.Resources"
+        android:label="Resources" />
+</navigation>

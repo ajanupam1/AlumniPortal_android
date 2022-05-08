@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group >
+        <item android:id="@+id/profile"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="Profile"
+            />
+        <item android:id="@+id/appointment"
+            android:title="Appointment"
+            android:icon="@drawable/ic_baseline_assignment_turned_in_24"
+            />
+        <item android:id="@+id/res"
+            android:icon="@drawable/ic_baseline_cloud_download_24"
+            android:title="Downloads"/>
+        <item android:id="@+id/faq"
+            android:icon="@drawable/ic_baseline_question_answer_24"
+            android:title="FAQ"/>
+        <item android:id="@+id/dev"
+            android:icon="@drawable/ic_baseline_developer_mode_24"
+            android:title="About Us"/>
+    </group>
+
+</menu>

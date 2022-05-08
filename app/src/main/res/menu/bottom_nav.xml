@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/feed"
+    android:icon="@drawable/ic_baseline_rss_feed_24"
+    android:title="Feeds"/>
+    <item android:id="@+id/Resources"
+        android:icon="@drawable/ic_baseline_cloud_download_24"
+        android:title="Resources"
+        />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Profile"/>
+</menu>
