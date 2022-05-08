@@ -28,14 +28,14 @@
         <activity android:name=".EditScreen" />
         <activity android:name=".Url_visit" />
         <activity android:name=".Profile_Page" > </activity>
-        <activity android:name=".Resources" />
+        <activity android:name=".Resources" ></activity>
         <activity android:name=".Profile_update" />
         <activity android:name=".Verification_page" />
         <activity android:name=".splash_screen"> <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter> </activity>
+        </intent-filter></activity>
         <activity android:name=".Signup_page" />
         <activity android:name=".Login_page" />
 

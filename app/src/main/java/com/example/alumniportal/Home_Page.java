@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class Home_Page extends AppCompatActivity {
     ArrayList<Home_post_values> values ;
@@ -29,17 +31,48 @@ public class Home_Page extends AppCompatActivity {
     FirebaseAuth firebaseAuth ;
     FirebaseDatabase firebaseDatabase ;
     String CurrentUser ;
-    DatabaseReference databaseReference ;
+    DatabaseReference databaseReference,databaseReference1 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
         ImageView dropview = findViewById(R.id.drop_menu);
+        ImageView profile = findViewById(R.id.profile_image);
         firebaseAuth = FirebaseAuth.getInstance();
         CurrentUser = firebaseAuth.getCurrentUser().getUid();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Feeds");
+        databaseReference1 = firebaseDatabase.getReference().child("Users").child(CurrentUser);
+
+
+        //profile image
+        DownloadTask downloadTask = new DownloadTask();
+        try{
+            databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Profile_values profile_values = snapshot.getValue(Profile_values.class);
+                    Bitmap profilepic = null;
+                    try {
+                        profilepic = downloadTask.execute(profile_values.getProfile()).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    profile.setImageBitmap(profilepic);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         //drop menu
         dropview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +111,15 @@ public class Home_Page extends AppCompatActivity {
 
         databaseReference.addValueEventListener(preListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //profile
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),Profile_Page.class);
+                startActivity(i);
+            }
+        });
 
     }
 

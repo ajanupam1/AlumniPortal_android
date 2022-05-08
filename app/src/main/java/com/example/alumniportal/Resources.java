@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,8 +29,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,9 +50,9 @@ ListView list ;
 String filepath= "" ;
 StorageTask uploadtask ;
     Uri file ;
-    ArrayList<String> notes = new ArrayList<String>();
+    ArrayList<String> notes;
     ArrayAdapter<String> arrayAdapter ;
-    ArrayList<String> downloadlinks = new ArrayList<String>();
+    ArrayList<String> downloadlinks ;
 StorageReference storageReference ;
 int flag = 1;
 
@@ -58,17 +61,14 @@ int flag = 1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resources);
         //storage runtime permission
-//        if(Build.VERSION.SDK >= Build.VERSION_CODES.M){
-//
-//        }
 
         ImageView dropdown = findViewById(R.id.drop_menu);
 
         uploadfile = findViewById(R.id.uploadfiles) ;
         selectfile = findViewById(R.id.selectfile) ;
         list = findViewById(R.id.listview) ;
-        arrayAdapter = new ArrayAdapter<String>(Resources.this , android.R.layout.simple_list_item_1, notes) ;
-        list.setAdapter(arrayAdapter);
+        downloadlinks = new ArrayList<>();
+        notes = new ArrayList<>();
 
 
         storageReference = FirebaseStorage.getInstance().getReference().child("Resources") ;
@@ -84,13 +84,24 @@ int flag = 1;
             }
         });
 
+
         // upload file
         uploadfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Progress bar
+                ProgressDialog progressDialog = new ProgressDialog(Resources.this);
+                progressDialog.show();
                 if(file != null){
                   final StorageReference s = storageReference.child(file.getLastPathSegment()) ;
-                  uploadtask = s.putFile(file) ;
+                  uploadtask = s.putFile(file).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                      @Override
+                      public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                          double progress = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                          int current = (int)progress;
+                          progressDialog.setMessage("Uploaded "+current+"%");
+                      }
+                  });
                   uploadtask.continueWithTask(new Continuation() {
                       @Override
                       public Object then(@NonNull Task task) throws Exception {
@@ -103,7 +114,8 @@ int flag = 1;
                       @Override
                       public void onComplete(@NonNull  Task task) {
                              if(task.isSuccessful()){
-                              Log.i("success" , "yeahh");
+                                 progressDialog.dismiss();
+                                 Toast.makeText(Resources.this, "Uploaded!!", Toast.LENGTH_SHORT).show();
                              }
                       }
                   }).addOnFailureListener(new OnFailureListener() {
@@ -140,8 +152,12 @@ int flag = 1;
                      }
                  });
                   notes.add(item.getName()) ;
-                  arrayAdapter.notifyDataSetChanged();
               }
+
+              arrayAdapter = new ArrayAdapter<>(Resources.this , android.R.layout.simple_spinner_dropdown_item, notes) ;
+              list.setAdapter(arrayAdapter);
+
+
           }
       }).addOnFailureListener(new OnFailureListener() {
           @Override
@@ -150,30 +166,11 @@ int flag = 1;
           }
       });
 
-//              addOnCompleteListener(new OnCompleteListener<ListResult>() {
-//                  @Override
-//                  public void onComplete(@NonNull  Task<ListResult> task) {
-//                      if(!task.isSuccessful()) Log.i("error" , "error") ;
-//                      else{
-//                          for (StorageReference item : task.getResult().getItems()) {
-//                              notes.add(item.getName()) ;
-//                              arrayAdapter.notifyDataSetChanged();
-//                          }
-//                      }
-//                  }
-//              }).addOnFailureListener(new OnFailureListener() {
-//          @Override
-//          public void onFailure(@NonNull Exception e) {
-//              Log.i("eroor" , "error") ;
-//          }
-//      });
       // list view listener
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(Resources.this, "working", Toast.LENGTH_SHORT).show();
-//                if(downloadlinks.size()!=1){
-//                Log.i("herer" , downloadlinks.get(position)) ;}
+                Toast.makeText(Resources.this, "Downloading", Toast.LENGTH_SHORT).show();
                 downloadfile(Resources.this , notes.get(position) , ".pdf" , DIRECTORY_DOWNLOADS , downloadlinks.get(position));
             }
         });
@@ -201,6 +198,7 @@ int flag = 1;
  DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
  Uri uri = Uri.parse(url) ;
  DownloadManager.Request request= new DownloadManager.Request(uri) ;
+        Toast.makeText(context, "Downloaded!!", Toast.LENGTH_SHORT).show();
     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) ;
     request.setDestinationInExternalFilesDir(context , Destdic , filename +fileExtention) ;
     downloadManager.enqueue(request) ;

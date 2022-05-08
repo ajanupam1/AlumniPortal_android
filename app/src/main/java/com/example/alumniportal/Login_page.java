@@ -22,6 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login_page extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -29,6 +34,8 @@ public class Login_page extends AppCompatActivity {
 TextView signup , forget;
 EditText username , password ;
 Button loginbutton ;
+FirebaseDatabase firebaseDatabase ;
+DatabaseReference databaseReference ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,7 @@ Button loginbutton ;
         password = findViewById(R.id.password) ;
         loginbutton = findViewById(R.id.loginbutton) ;
        mAuth = FirebaseAuth.getInstance();
+       firebaseDatabase = FirebaseDatabase.getInstance() ;
         // full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -57,6 +65,26 @@ Button loginbutton ;
 //                }
 //            }
 //        };
+
+        //checks if user is already logged in
+        if(mAuth.getCurrentUser() != null){
+            databaseReference = firebaseDatabase.getReference().child("Users").child(mAuth.getUid());
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Profile_values profile_values = snapshot.getValue(Profile_values.class);
+                    Toast.makeText(Login_page.this, "Welcome "+profile_values.getFull_name(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(),Home_Page.class);
+                    startActivity(i);
+                    finish();
+                }
+
+                @Override
+                public void onCancelled(@NonNull  DatabaseError error) {
+
+                }
+            });
+        }
         // reset password
         forget = findViewById(R.id.forget) ;
         forget.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +135,7 @@ Button loginbutton ;
                     Toast.makeText(Login_page.this, "Incorrect Credentials", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(Login_page.this, "Successsss", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login_page.this, "Logged In!!", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser() ;
                     if(user.isEmailVerified()){
                         Intent i = new Intent(getApplicationContext() ,Profile_Page.class ) ;

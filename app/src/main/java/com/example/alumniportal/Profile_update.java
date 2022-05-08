@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,8 +27,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -122,10 +125,20 @@ int flag = 1;
                     databaseReference.child("Users").child(userId).child("leetcode").setValue(lp.getText().toString());
 
                 if (imageuri != null) {
+                    //Progress bar
+                    ProgressDialog progressDialog = new ProgressDialog(Profile_update.this);
+                    progressDialog.show();
                     final StorageReference s = storage.child(userId + ".jpg");
                     Log.i("tag", imageuri.toString());
 
-                    upload = s.putFile(imageuri);
+                    upload = s.putFile(imageuri).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progress = (100*snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                            int current = (int)progress;
+                            progressDialog.setMessage("Uploaded "+current+"%");
+                        }
+                    });
 
                     upload.continueWithTask(new Continuation() {
                         @Override
@@ -146,8 +159,8 @@ int flag = 1;
 
                                 if (!profilepicurl.equals(""))
                                     databaseReference.child("Users").child(userId).child("profile").setValue(profilepicurl);
-
-                                Toast.makeText(Profile_update.this, "Success", Toast.LENGTH_SHORT).show();
+                                     progressDialog.dismiss();
+                                Toast.makeText(Profile_update.this, "Profile Updated!!", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(getApplicationContext(), Profile_Page.class);
                                 startActivity(i);
 
