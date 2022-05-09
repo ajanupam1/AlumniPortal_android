@@ -51,6 +51,7 @@ public class Appointment_confirmed_adapter extends RecyclerView.Adapter<Appointm
         holder.name.setText(values.getName());
         holder.dateandtime.setText(values.getDate()+","+values.getTime());
 
+
         //profilepic
         DownloadTask downloadTask = new DownloadTask();
         try{
@@ -72,11 +73,15 @@ public class Appointment_confirmed_adapter extends RecyclerView.Adapter<Appointm
         ImageView profile_picture ;
         TextView name ;
         TextView dateandtime;
+        TextView app,rej ;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             profile_picture = itemView.findViewById(R.id.ivprofile_image);
             name = itemView.findViewById(R.id.ivname);
             dateandtime = itemView.findViewById(R.id.dateandtime);
+            app = itemView.findViewById(R.id.approved);
+            rej = itemView.findViewById(R.id.rejected);
+
         }
 
     }

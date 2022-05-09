@@ -365,11 +365,11 @@ public class Profile_visit extends AppCompatActivity {
                         }
                         if(flag == 1){
                                        String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
-                            databaseReference4.child(currentDateTime).child("Name").setValue(user_name);
-                            databaseReference4.child(currentDateTime).child("Profile").setValue(profile_url);
-                            databaseReference4.child(currentDateTime).child("User").setValue(data);
-                            databaseReference4.child(currentDateTime).child("Date").setValue(day+"/"+month+"/"+year);
-                            databaseReference4.child(currentDateTime).child("Time").setValue(hour+":"+minute);
+//                            databaseReference4.child(currentDateTime).child("Name").setValue(user_name);
+//                            databaseReference4.child(currentDateTime).child("Profile").setValue(profile_url);
+//                            databaseReference4.child(currentDateTime).child("User").setValue(data);
+//                            databaseReference4.child(currentDateTime).child("Date").setValue(day+"/"+month+"/"+year);
+//                            databaseReference4.child(currentDateTime).child("Time").setValue(hour+":"+minute);
 
 
 
@@ -380,6 +380,7 @@ public class Profile_visit extends AppCompatActivity {
                                        databaseReference2.child(currentDateTime).child("User").setValue(Currentuser);
                                        databaseReference2.child(currentDateTime).child("Date").setValue(day+"/"+month+"/"+year);
                                        databaseReference2.child(currentDateTime).child("Time").setValue(hour+":"+minute);
+                               Toast.makeText(Profile_visit.this, "Slot Booked!!", Toast.LENGTH_SHORT).show();
                                    }
 
                     }

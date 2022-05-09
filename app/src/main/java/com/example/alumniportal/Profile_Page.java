@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -61,6 +62,7 @@ class DownloadTask extends AsyncTask<String , Void , Bitmap>{
 
 
 public class Profile_Page extends AppCompatActivity {
+    SwipeRefreshLayout swipeRefreshLayout ;
     RecyclerView recyclerView ;
     Recycler_Adapter recycler_adapter;
     ArrayList<Post_values> values ;
@@ -77,6 +79,7 @@ public class Profile_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
 
         //Instances and references
         firebaseAuth = FirebaseAuth.getInstance();

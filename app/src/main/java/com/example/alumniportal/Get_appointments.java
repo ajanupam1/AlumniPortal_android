@@ -20,8 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class Get_appointments extends AppCompatActivity {
-    ArrayList<Appointment_values> values ;
-    Appointment_confirmed_adapter appointment_confirmed_adapter ;
+    ArrayList<My_booking> values ;
+    My_booking_adapter appointment_confirmed_adapter ;
     DatabaseReference databaseReference ;
     FirebaseAuth firebaseAuth ;
     FirebaseDatabase firebaseDatabase ;
@@ -45,13 +45,13 @@ public class Get_appointments extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data : snapshot.getChildren()){
-                    Appointment_values ap = new Appointment_values(data.child("Date").getValue().toString(),data.child("Time").getValue().toString(),
-                            data.child("Name").getValue().toString(),data.child("Profile").getValue().toString(),data.getRef() ,data.child("User").getValue().toString());
+                    My_booking ap = new My_booking(data.child("Name").getValue().toString(),data.child("Date").getValue().toString(),
+                            data.child("User").getValue().toString(),data.child("Time").getValue().toString(),data.child("App").getValue().toString());
                     values.add(ap);
                 }
-                appointment_confirmed_adapter = new Appointment_confirmed_adapter(values);
+                appointment_confirmed_adapter = new My_booking_adapter(values);
                 recyclerView.setAdapter(appointment_confirmed_adapter);
-                appointment_confirmed_adapter.notifyDataSetChanged ();
+//                My_booking_adapter.notifyDataSetChanged ();
             }
 
             @Override

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/borders"
-    android:backgroundTint="#00FF00"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp">
@@ -51,6 +50,41 @@
         android:layout_toEndOf="@+id/ivprofile_image"
         android:text="Anupam"
         android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/ivprofile_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:id="@+id/approved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="212dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/ivprofile_image"
+        android:visibility="invisible"
+        android:text="Confirmed"
+        android:textColor="#00FF00"
+        android:textSize="20dp"
+        app:layout_constraintStart_toEndOf="@+id/ivprofile_image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/rejected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="212dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/ivprofile_image"
+        android:visibility="invisible"
+        android:text="Rejected"
+        android:textColor="#FF0000"
         android:textSize="20dp"
         app:layout_constraintStart_toEndOf="@+id/ivprofile_image"
         app:layout_constraintTop_toTopOf="parent"

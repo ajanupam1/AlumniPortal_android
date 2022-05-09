@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.InputStream;
@@ -30,6 +31,7 @@ public class Home_Adapter extends RecyclerView.Adapter<Home_Adapter.ViewHolder> 
 //    public ViewHolder.OnpostSelected onpostSelected ;
     public Home_Adapter(ArrayList<Home_post_values> post_values){
         this.post_values = post_values ;
+
     }
 
     @NonNull
@@ -58,14 +60,19 @@ public class Home_Adapter extends RecyclerView.Adapter<Home_Adapter.ViewHolder> 
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("value" , post_values.get(position).getCompany_name().toString());
-                Intent i = new Intent(v.getContext() , Profile_visit.class);
-                i.putExtra("Userid" , post_values.get(position).getUserid());
-                v.getContext().startActivity(i);
+               if(firebaseAuth.getUid().equals(post_values.get(position).getUserid())){
+                   Intent i = new Intent(v.getContext() , Profile_Page.class);
+                   v.getContext().startActivity(i);
+               }
+               else {
+                   Intent i = new Intent(v.getContext(), Profile_visit.class);
+                   i.putExtra("Userid", post_values.get(position).getUserid());
+                   v.getContext().startActivity(i);
+               }
             }
         });
     }

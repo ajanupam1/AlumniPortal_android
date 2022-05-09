@@ -3,6 +3,8 @@ package com.example.alumniportal;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,6 +51,7 @@ public class Appointment_Adapter extends RecyclerView.Adapter<Appointment_Adapte
         holder.name.setText(values.getName());
         holder.dateandtime.setText(values.getDate()+","+values.getTime());
 
+
         //profilepic
         DownloadTask downloadTask = new DownloadTask();
         try{
@@ -77,6 +81,7 @@ public class Appointment_Adapter extends RecyclerView.Adapter<Appointment_Adapte
             dateandtime = itemView.findViewById(R.id.dateandtime);
             menubutton = itemView.findViewById(R.id.dropdown_menu);
             menubutton.setOnClickListener(this);
+
         }
 
         @Override
@@ -93,10 +98,21 @@ public class Appointment_Adapter extends RecyclerView.Adapter<Appointment_Adapte
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             if(item.getItemId()==R.id.accept){
+                            int redColorValue = Color.RED;
+                            int greenColorValue = Color.GREEN;
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 Appointment_values post = post_values.get(getAdapterPosition());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference1 = firebaseDatabase.getReference().child("Appointments").child(post.getUserid()).child("Confirmed");
+                DatabaseReference databaseReference2 = firebaseDatabase.getReference().child("Appointments").child(post.getUserid()).child("My_Booking");
+
                 String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+
+                databaseReference2.child(currentDateTime).child("Name").setValue(firebaseAuth.getUid());
+                databaseReference2.child(currentDateTime).child("User").setValue(post.getUserid());
+                databaseReference2.child(currentDateTime).child("Date").setValue(post.getDate());
+                databaseReference2.child(currentDateTime).child("Time").setValue(post.getTime());
+                databaseReference2.child(currentDateTime).child("App").setValue("true");
 
                 databaseReference1.child(currentDateTime).child("Profile").setValue(post.getUrl());
                 databaseReference1.child(currentDateTime).child("Name").setValue(post.getName());
@@ -110,7 +126,19 @@ public class Appointment_Adapter extends RecyclerView.Adapter<Appointment_Adapte
                 return true ;
             }
             else if(item.getItemId()==R.id.decline){
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 Appointment_values post = post_values.get(getAdapterPosition());
+                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference2 = firebaseDatabase.getReference().child("Appointments").child(post.getUserid()).child("My_Booking");
+
+                String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+
+                databaseReference2.child(currentDateTime).child("Name").setValue(firebaseAuth.getUid());
+                databaseReference2.child(currentDateTime).child("User").setValue(post.getUserid());
+                databaseReference2.child(currentDateTime).child("Date").setValue(post.getDate());
+                databaseReference2.child(currentDateTime).child("Time").setValue(post.getTime());
+                databaseReference2.child(currentDateTime).child("App").setValue("false");
+
                 DatabaseReference databaseReference = post.getDatabaseReference();
                 databaseReference.removeValue();
                 post_values.remove(getAdapterPosition());

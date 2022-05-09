@@ -9,20 +9,26 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.ViewHolder> {
     public ArrayList<Post_values> post_values;
@@ -70,6 +76,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
         EditText company_name ;
         EditText exp ;
         ImageView menubutton ;
+        Button button ;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             profile_picture = itemView.findViewById(R.id.ivprofile_image);
@@ -77,6 +84,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
             gyear = itemView.findViewById(R.id.ivgyear);
             company_name = itemView.findViewById(R.id.ivcompany_name);
             exp = itemView.findViewById(R.id.ivexp);
+            button = itemView.findViewById(R.id.save);
             menubutton = itemView.findViewById(R.id.dropdown_menu);
             menubutton.setOnClickListener(this);
         }
@@ -95,6 +103,44 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             if(item.getItemId()==R.id.edit){
+                menubutton.setVisibility(View.INVISIBLE);
+                button.setVisibility(View.VISIBLE);
+                company_name.setEnabled(true);
+                exp.setEnabled(true);
+                company_name.setFocusable(true);
+                exp.setFocusable(true);
+                company_name.setFocusableInTouchMode(true);
+                exp.setFocusableInTouchMode(true);
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                        DatabaseReference databaseReference1 = firebaseDatabase.getReference().child("Feeds").child(firebaseAuth.getUid());
+                        Post_values post = post_values.get(getAdapterPosition());
+                        DatabaseReference databaseReference = post.getDatabaseReference();
+                        databaseReference.child("Company").setValue(company_name.getText().toString());
+                        databaseReference.child("Exp").setValue(exp.getText().toString());
+                        menubutton.setVisibility(View.VISIBLE);
+                        button.setVisibility(View.INVISIBLE);
+                        company_name.setEnabled(false);
+                        exp.setEnabled(false);
+                        company_name.setFocusable(false);
+                        exp.setFocusable(false);
+                        company_name.setFocusableInTouchMode(false);
+                        exp.setFocusableInTouchMode(false);
+//feeds value
+                        String currentDateTime = DateFormat.getDateTimeInstance().format(new Date());
+                        databaseReference1.child(currentDateTime).child("Profilepic").setValue(post.getProfile_pic());
+                        databaseReference1.child(currentDateTime).child("Name").setValue(post.getName());
+                        databaseReference1.child(currentDateTime).child("Year").setValue(post.getYear());
+                        databaseReference1.child(currentDateTime).child("Company").setValue(company_name.getText().toString());
+                        databaseReference1.child(currentDateTime).child("Exp").setValue(exp.getText().toString());
+                        databaseReference1.child(currentDateTime).child("UserId").setValue(firebaseAuth.getUid());
+
+                    }
+                });
                return true ;
             }
             else if(item.getItemId()==R.id.delete){
