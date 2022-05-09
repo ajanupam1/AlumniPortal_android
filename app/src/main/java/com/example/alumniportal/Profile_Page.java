@@ -245,6 +245,7 @@ public class Profile_Page extends AppCompatActivity {
                     databaseReference1.child(currentDateTime).child("Company").setValue(iecompany.getText().toString());
                     databaseReference1.child(currentDateTime).child("Exp").setValue(ieexp.getText().toString());
 
+
                     databaseReference2.child(currentDateTime).child("Profilepic").setValue(pic);
                     databaseReference2.child(currentDateTime).child("Name").setValue(username);
                     databaseReference2.child(currentDateTime).child("Year").setValue(gradyear);
@@ -253,6 +254,8 @@ public class Profile_Page extends AppCompatActivity {
                     databaseReference2.child(currentDateTime).child("UserId").setValue(CurrentUser);
 
                     Toast.makeText(Profile_Page.this, "Posted Successfully", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getApplicationContext(),Profile_Page.class);
+                    startActivity(i);
                 }
             }
         });

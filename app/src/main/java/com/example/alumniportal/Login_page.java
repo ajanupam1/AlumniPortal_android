@@ -74,7 +74,7 @@ DatabaseReference databaseReference ;
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Profile_values profile_values = snapshot.getValue(Profile_values.class);
                     Toast.makeText(Login_page.this, "Welcome "+profile_values.getFull_name(), Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(getApplicationContext(),Home_Page.class);
+                    Intent i = new Intent(getApplicationContext(),Profile_Page.class);
                     startActivity(i);
                     finish();
                 }
