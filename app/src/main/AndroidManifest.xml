@@ -14,28 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlumniPortal">
-        <activity android:name=".Confirmed_Appointments"></activity>
+        <activity android:name=".About_us"></activity>
+        <activity android:name=".FAQ" />
+        <activity android:name=".Confirmed_Appointments" />
         <activity android:name=".Pending_Appointments" />
         <activity android:name=".Get_appointments" />
-        <activity android:name=".Appointment" >
-        </activity>
+        <activity android:name=".Appointment" />
         <activity android:name=".Profile_visit" />
         <activity android:name=".r_menu" />
         <activity android:name=".h_menu" />
         <activity android:name=".p_menu" />
-        <activity android:name=".Home_Page">
-        </activity>
+        <activity android:name=".Home_Page" />
         <activity android:name=".EditScreen" />
         <activity android:name=".Url_visit" />
-        <activity android:name=".Profile_Page" > </activity>
-        <activity android:name=".Resources" ></activity>
+        <activity android:name=".Profile_Page" />
+        <activity android:name=".Resources" />
         <activity android:name=".Profile_update" />
         <activity android:name=".Verification_page" />
-        <activity android:name=".splash_screen"> <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".splash_screen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Signup_page" />
         <activity android:name=".Login_page" />
 

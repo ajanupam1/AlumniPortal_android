@@ -87,13 +87,13 @@ public class h_menu extends AppCompatActivity {
                     return true ;
                 }
                 if(item.getItemId() == R.id.faq){
-                    Intent i = new Intent(getApplicationContext() , Home_Page.class);
+                    Intent i = new Intent(getApplicationContext() , FAQ.class);
                     startActivity(i);
                     finish();
                     return true ;
                 }
                 else if(item.getItemId() == R.id.dev){
-                    Intent i = new Intent(getApplicationContext() , Home_Page.class);
+                    Intent i = new Intent(getApplicationContext() , About_us.class);
                     startActivity(i);
                     finish();
                     return true ;

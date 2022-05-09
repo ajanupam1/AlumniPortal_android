@@ -24,10 +24,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.ViewHolder> {
@@ -77,6 +79,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
         EditText exp ;
         ImageView menubutton ;
         Button button ;
+        RecyclerView recyclerView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             profile_picture = itemView.findViewById(R.id.ivprofile_image);
@@ -86,6 +89,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
             exp = itemView.findViewById(R.id.ivexp);
             button = itemView.findViewById(R.id.save);
             menubutton = itemView.findViewById(R.id.dropdown_menu);
+            recyclerView = itemView.findViewById(R.id.recyclerview);
             menubutton.setOnClickListener(this);
         }
 
@@ -93,6 +97,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
         public void onClick(View v) {
             Showpopupmenu(v);
         }
+
         private void Showpopupmenu(View v){
             PopupMenu popupMenu = new PopupMenu(v.getContext(),v);
             popupMenu.inflate(R.menu.popup_menu);
@@ -149,6 +154,7 @@ public class Recycler_Adapter extends RecyclerView.Adapter<Recycler_Adapter.View
                 databaseReference.removeValue();
                 post_values.remove(getAdapterPosition());
                 notifyItemRemoved(getAdapterPosition());
+
                 return true ;
             }
            else {
